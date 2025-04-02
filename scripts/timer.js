@@ -11,45 +11,59 @@ const longBreakBtn = document.querySelector(".l-break-btn");
 const timerMsg = document.querySelector(".timer-msg");
 const currentTaskDisplay = document.querySelector(".current-task-display");
 
+const POMODORO_TIME = 25;
+const SHORT_BREAK_TIME = 5;
+const LONG_BREAK_TIME = 15;
+
+const timerState = {
+  currTimeSelection: "pomodoro", // default to pomodoro
+  pomodoroIndex: 1, // to track the number of pomodoros completed
+  shortBreakIndex: 1, // to track the number of short breaks taken
+  timerRunning: false, // to check if the timer is running
+  progress: 0, // to track the progress of the timer
+  intervalId: null, // to store the interval ID for the timer
+}
+
 renderTaskList();
 
-let startingMins = 25;
+let startingMins = POMODORO_TIME;
 let time = (startingMins * 60) - 1;
-let timerRunning = false;
-let intervalId = null;
-let progress = 0;
-let pomodoroIndex = 1;
-let shortBreakIndex = 1;
-timerElement.textContent = `${startingMins}:00`;
-progressBar.style.width = `${progress}%`;
-timerMsg.textContent = `Time to focus #${pomodoroIndex}`;
+
+if (startingMins < 10) {
+  timerElement.textContent = `0${startingMins}:00`;
+} else {
+  timerElement.textContent = `${startingMins}:00`;
+}
+
+progressBar.style.width = `${timerState.progress}%`;
+timerMsg.textContent = `Time to focus #${timerState.pomodoroIndex}`;
 
 function initializeTimer(mins) {
-  timerRunning = false;
-  clearInterval(intervalId);
+  timerState.timerRunning = false;
+  clearInterval(timerState.intervalId);
   startingMins = mins;
   time = (startingMins * 60) - 1;
-  progress = 0;
+  timerState.progress = 0;
   if (mins < 10) {
     timerElement.textContent = `0${startingMins}:00`;
   } else {
     timerElement.textContent = `${startingMins}:00`;
   }
-  progressBar.style.width = `${progress}%`;
+  progressBar.style.width = `${timerState.progress}%`;
   startTimerBtn.style.display = "block";
   pauseTimerBtn.style.display = "none";
-  displayTimerMsg(mins);
+  displayTimerMsg();
 }
 
-function displayTimerMsg(mins) {
-  switch (true) {
-    case (mins === 25):
-      timerMsg.textContent = `Time to focus #${pomodoroIndex}`;
+function displayTimerMsg() {
+  switch (timerState.currTimeSelection) {
+    case 'pomodoro':
+      timerMsg.textContent = `Time to focus #${timerState.pomodoroIndex}`;
       break;
-    case (mins === 5):
-      timerMsg.textContent = `Time for a short break #${shortBreakIndex}`;
+    case 's-break':
+      timerMsg.textContent = `Time for a short break #${timerState.shortBreakIndex}`;
       break;
-    case (mins === 15):
+    case 'l-break':
       timerMsg.textContent = "Time for a long break";
       break;
   }
@@ -87,47 +101,65 @@ function deactivatePrevSelection(type) {
 }
 
 pomodoroBtn.addEventListener("click", () => {
-  deactivatePrevSelection("pomodoro");
-  initializeTimer(25);
+  timerState.currTimeSelection = "pomodoro";
+  deactivatePrevSelection(timerState.currTimeSelection);
+  initializeTimer(POMODORO_TIME);
   pomodoroBtn.classList.add("active");
 });
 shortBreakBtn.addEventListener("click", () => {
-  deactivatePrevSelection("s-break");
-  initializeTimer(5);
+  timerState.currTimeSelection = "s-break";
+  deactivatePrevSelection(timerState.currTimeSelection);
+  initializeTimer(SHORT_BREAK_TIME);
   shortBreakBtn.classList.add("active");
 });
 longBreakBtn.addEventListener("click", () => {
-  deactivatePrevSelection("l-break");
-  initializeTimer(15);
+  timerState.currTimeSelection = "l-break";
+  deactivatePrevSelection(timerState.currTimeSelection);
+  initializeTimer(LONG_BREAK_TIME);
   longBreakBtn.classList.add("active");
 });
 
 function timerEnds() {
-  timerRunning = false;
+  timerState.timerRunning = false;
 
-  if (startingMins === 25) { // Was a pomodoro timer
-    if (pomodoroIndex <= 3) { // First 3 pomos followed by a short break
+  if (timerState.currTimeSelection === 'pomodoro') { // Was a pomodoro timer
+
+    if (timerState.pomodoroIndex <= 3) { // First 3 pomos followed by a short break
+
+      timerState.currTimeSelection = "s-break";
       shortBreakBtn.classList.add("active");
       updatePomodoroProgress();
-      deactivatePrevSelection("s-break");
-      initializeTimer(5);
-      pomodoroIndex++;
+      deactivatePrevSelection(timerState.currTimeSelection);
+      initializeTimer(SHORT_BREAK_TIME);
+      timerState.pomodoroIndex++;
+
     } else { // 4th pomo followed by a long break; process then resets
+
+      timerState.currTimeSelection = "l-break";
       longBreakBtn.classList.add("active");
-      deactivatePrevSelection("l-break");
-      initializeTimer(15);
-      pomodoroIndex = 1;
-      shortBreakIndex = 1;
+      updatePomodoroProgress();
+      deactivatePrevSelection(timerState.currTimeSelection);
+      initializeTimer(LONG_BREAK_TIME);
+      timerState.pomodoroIndex = 1;
+      timerState.shortBreakIndex = 1;
+
     }
-  } else if (startingMins === 5) {
+
+  } else if (timerState.currTimeSelection === 's-break') { // Was a short break timer
+
+    timerState.currTimeSelection = "pomodoro";
     pomodoroBtn.classList.add("active");
-    deactivatePrevSelection("pomodoro");
-    initializeTimer(25);
-    shortBreakIndex++;
-  } else if (startingMins === 15) {
+    deactivatePrevSelection(timerState.currTimeSelection);
+    initializeTimer(POMODORO_TIME);
+    timerState.shortBreakIndex++;
+
+  } else if (timerState.currTimeSelection === 'l-break') { // Was a long break timer
+
+    timerState.currTimeSelection = "pomodoro";
     pomodoroBtn.classList.add("active");
-    deactivatePrevSelection("pomodoro");
-    initializeTimer(25);
+    deactivatePrevSelection(timerState.currTimeSelection);
+    initializeTimer(POMODORO_TIME);
+
   }
 }
 
@@ -154,16 +186,16 @@ function runTimer() {
   let seconds = time % 60;
   const progressIncrement = (100 / (startingMins * 60));
 
-  progress += progressIncrement;
-  if (progress > 100) {
-    progress = 100;
+  timerState.progress += progressIncrement;
+  if (timerState.progress > 100) {
+    timerState.progress = 100;
   }
 
   seconds = seconds < 10 ? '0' + seconds : seconds;
   minutes = minutes < 10 ? '0' + minutes : minutes;
 
   timerElement.textContent = `${minutes}:${seconds}`;
-  progressBar.style.width = `${progress}%`;
+  progressBar.style.width = `${timerState.progress}%`;
   time--;
 
   if (time < 0) {
@@ -172,15 +204,15 @@ function runTimer() {
 }
 
 startTimerBtn.addEventListener('click', () => {
-  intervalId = setInterval(runTimer, 1000);
-  timerRunning = true;
+  timerState.intervalId = setInterval(runTimer, 1000);
+  timerState.timerRunning = true;
   startTimerBtn.style.display = "none";
   pauseTimerBtn.style.display = "block";
 });
 
 pauseTimerBtn.addEventListener('click', () => {
-  clearInterval(intervalId);
-  timerRunning = false;
+  clearInterval(timerState.intervalId);
+  timerState.timerRunning = false;
   startTimerBtn.style.display = "block";
   pauseTimerBtn.style.display = "none";
 });
