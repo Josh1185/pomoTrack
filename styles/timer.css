@@ -1,0 +1,155 @@
+body {
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  gap: 10px;
+}
+
+.current-task-container {
+  width: 350px;
+}
+
+.current-task-container h3 {
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.task-title {
+  font-size: 1.25rem;
+}
+
+.task-pomos {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+
+.task-pomos span {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.task-description {
+  font-size: 0.85rem;
+  color:hsl(0, 0%, 50%);
+  margin-bottom: 10px;
+  max-width: 100%;
+  white-space: wrap;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.task-progress-bar {
+  height: 20px;
+  width: 100%;
+  border: 2px solid hsl(0, 0%, 25%);
+  border-radius: 15px;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  overflow: hidden;
+}
+
+.task-progress {
+  background-color: var(--primary-color);
+  width: 0%;
+  height: 16px;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  border-radius: 15px;
+}
+
+.current-task {
+  width: 100%;
+  border: 2px solid hsl(0, 0%, 25%);
+  border-radius: 15px;
+  padding: 1rem;
+  color: white;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+}
+
+.timer-btn {
+  color: white;
+  border: 2px solid hsl(0, 0%, 25%);
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  background-color: transparent;
+  transition: all 0.15s;
+  font-size: 0.95rem;
+  width: 33%;
+  padding: 6px 10px;
+}
+
+.timer-btn:hover {
+  border: 2px solid white;
+  box-shadow: inset 0 0 10px white;
+}
+
+.timer-container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.timer-selection {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.timer {
+  border: 2px solid hsl(0, 0%, 25%);
+  padding: 1rem;
+  border-radius: 15px;
+  color: white;
+  width: 100%;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  text-align: center;
+  font-size: 7rem;
+}
+
+.progress-bar {
+  border: 2px solid hsl(0, 0%, 25%);
+  width: 100%;
+  height: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+}
+
+.progress {
+  width: 0%;
+  height: 16px;
+  background-color: var(--primary-color);
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  border-radius: 15px;
+}
+
+.timer-controls button {
+  background-color: transparent;
+  color: white;
+  padding: 8px 16px;
+  font-size: 1.5rem;
+  border: 2px solid hsl(0, 0%, 25%);
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: inset 0 0 10px hsl(0, 0%, 25%);
+  transition: all 0.15s;
+}
+
+.timer-controls button:hover {
+  border: 2px solid var(--primary-color);
+  box-shadow: inset 0 0 10px var(--primary-color);
+  color: var(--primary-color);
+}
+
+.timer-msg {
+  width: 100%;
+  font-size: 1.25rem;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PomoTrack - Timer</title>
+  <link rel="stylesheet" href="styles/timer.css">
+  <link rel="stylesheet" href="styles/task.css">
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="logo"><a href="timer.html">Pomo<span>Track</span></a></div>
+    <div class="link-btns">
+      <a href="timer.html"><button class="link-btn active timer-link-btn">Timer</button></a>
+      <a href="stats.html"><button class="link-btn task-btn">Stats</button></a>
+      <a href="about.html"><button class="link-btn about-btn">About</button></a>
+      <button class="link-btn settings-btn">Settings</button>
+    </div>
+    <div class="additional-links">
+      <button class="link-btn sign-in-btn">Sign In</button>
+    </div>
+  </header>
+
+  <div class="timer-container">
+    <div class="timer-msg"></div>
+    <div class="timer-selection">
+      <button class="timer-btn pomodoro-btn">Pomodoro</button>
+      <button class="timer-btn s-break-btn">Short Break</button>
+      <button class="timer-btn l-break-btn">Long Break</button>
+    </div>
+    <div class="timer"></div>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    <div class="timer-controls">
+      <button class="start-btn">Start</button>
+      <button class="pause-btn" style="display: none;">Pause</button>
+    </div>
+  </div>
+
+  <div class="current-task-container">
+    <div class="current-task-display">
+      
+    </div>
+  </div>
+
+  <div class="task-header">
+    <h3>Tasks:</h3>
+    <div class="task-list-controls">
+      <button class="add-task-btn">Add Task</button>
+      <button class="clear-tasks-btn">Clear All</button>
+    </div>
+  </div>
+
+  <form class="add-task-container" style="display: none;">
+  <!--<label for="task-title-input">Title</label> -->
+    <input type="text" id="task-title-input" class="task-title-input" placeholder="Add Title" name="task-title-input" required>
+  <!--<label for="task-desc-input">Description</label>-->
+    <textarea type="text" class="task-desc-input" id="task-desc-input" placeholder="Add Description (Optional)" rows="3" cols="10" name="task-desc-input"></textarea>
+    <div>
+      <label for="est-pomos-input">Estimated Pomodoros:</label>
+      <input type="number" class="est-pomos-input" id="est-pomos-input" min="1" value="1" name="est-pomos-input">
+    </div>
+    <div class="add-task-form-btns">
+      <button type="submit" class="create-task-btn">Create</button>
+      <button type="reset" class="clear-task-form-btn">Clear</button>
+      <button class="cancel-task-add-btn">Cancel</button>
+    </div>
+  </form>
+
+  <div class="task-list-container">
+    
+  </div>
+
+  <div class="completed-tasks-header">
+    <h3>Completed Tasks:</h3>
+  </div>
+
+  <div class="completed-tasks-container">
+
+  </div>
+
+  <script type="module" src="scripts/timer.js"></script>
+</body>
+</html>
